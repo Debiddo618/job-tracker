@@ -51,7 +51,21 @@ def create_jobs():
   except Exception as e:
      return str(e), 500
 
-
+# Show a job by id
+@app.route('/jobs/<job_id>', methods=['GET'])
+def show_job(job_id):
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        cursor.execute("SELECT * FROM jobs WHERE id = %s", (job_id,))
+        job = cursor.fetchone()
+        if job is None:
+            connection.close()
+            return "Job Not Found", 404
+        connection.close()
+        return job, 200
+    except Exception as e:
+        return str(e), 500
 
 
 
