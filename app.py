@@ -67,6 +67,18 @@ def show_job(job_id):
     except Exception as e:
         return str(e), 500
 
+# Delete job by id
+@app.route('/jobs/<job_id>', methods=['DELETE'])
+def delete_job(job_id):
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        cursor.execute("DELETE FROM jobs WHERE id = %s", (job_id,))
+        connection.commit()
+        cursor.close()
+        return "Job deleted successfully", 204
+    except Exception as e:
+        return str(e), 500
 
 
 # Run our application, by default on port 5000
