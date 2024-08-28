@@ -79,7 +79,25 @@ def delete_job(job_id):
         return "Job deleted successfully", 204
     except Exception as e:
         return str(e), 500
+    
+# Update Route
+@app.route('/jobs/<job_id>', methods=['PUT'])
+def update_job(job_id):
+    try:
+      connection = get_db_connection()
+      cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+      cursor.execute("UPDATE jobs SET title = %s, company_name = %s, job_location = %s, type = %s, salary = %s, description = %s WHERE id = %s RETURNING *", (request.json['title'], request.json['company_name'], request.json['job_location'],request.json['type'],request.json['salary'],request.json['description'], job_id))
+      updated_job = cursor.fetchone()
+      if updated_job is None:
+        return "Job Not Found", 404
+      connection.commit()
+      connection.close()
+      return updated_job, 202
+    except Exception as e:
+      return str(e), 500
+
 
 
 # Run our application, by default on port 5000
-app.run()
+if __name__ == '__main__':
+    app.run(debug=True)
