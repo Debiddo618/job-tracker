@@ -23,15 +23,17 @@ def get_db_connection():
 # We'll use the pre-defined global '__name__' variable to tell Flask where it is.
 app = Flask(__name__)
 
-# Shows all the jobs
 @app.route('/jobs')
-def index():
-  connection = get_db_connection()
-  cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-  cursor.execute("SELECT * FROM jobs;")
-  jobs = cursor.fetchall()
-  connection.close()
-  return jobs
+def jobs_index():
+  try:
+    connection = get_db_connection()
+    cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    cursor.execute("SELECT * FROM jobs;")
+    jobs = cursor.fetchall()
+    connection.close()
+    return jobs
+  except:
+     return "Application Error", 500
 
 # Create a job
 @app.route('/jobs', methods=['POST'])
@@ -48,6 +50,9 @@ def create_jobs():
     return created_pet, 201
   except Exception as e:
      return str(e), 500
+
+
+
 
 
 # Run our application, by default on port 5000
