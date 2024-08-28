@@ -6,6 +6,8 @@ from dotenv import load_dotenv
 import os
 import psycopg2
 import psycopg2, psycopg2.extras
+from flask_cors import CORS
+
 
 
 load_dotenv()
@@ -22,6 +24,9 @@ def get_db_connection():
 # Initialize Flask
 # We'll use the pre-defined global '__name__' variable to tell Flask where it is.
 app = Flask(__name__)
+
+# Enable CORS
+CORS(app)
 
 @app.route('/jobs')
 def jobs_index():
