@@ -62,8 +62,20 @@ const App = () => {
     }
   };
 
-  
-  
+  const handleRemoveJob = async (jobId) => {
+    try {
+      const deletedJob = await jobService.deleteJob(jobId);
+      if (deletedJob.error) {
+        throw new Error(deletedJob.error);
+      }
+      setJobList(jobList.filter((job) => job.id !== jobId));
+      setSelected(null);
+      setIsFormOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <JobList 
@@ -75,7 +87,7 @@ const App = () => {
       {isFormOpen ? (
         <JobForm handleAddJob={handleAddJob} selected={selected} handleUpdateJob={handleUpdateJob} />
       ) : (
-        <JobDetail selected={selected} handleFormView={handleFormView}/>
+        <JobDetail selected={selected} handleFormView={handleFormView} handleRemoveJob={handleRemoveJob}/>
       )}
     </>
   )

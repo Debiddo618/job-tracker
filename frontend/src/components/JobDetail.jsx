@@ -15,7 +15,12 @@ const JobDetail = (props) => {
         <h3>Type: {props.selected.type}</h3>
         <h4>Description: {props.selected.description}</h4>
         <h4>Salary: {props.selected.salary}</h4>
-        <button onClick={() => props.handleFormView(props.selected)}>Edit</button>
+        <button onClick={() => props.handleFormView(props.selected)}>
+          Edit
+        </button>
+        <button onClick={() => props.handleRemoveJob(props.selected.id)}>
+          Delete
+        </button>
       </div>
     );
   };

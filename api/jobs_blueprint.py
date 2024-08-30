@@ -71,7 +71,7 @@ def delete_job(job_id):
         cursor.execute("DELETE FROM jobs WHERE id = %s", (job_id,))
         connection.commit()
         cursor.close()
-        return "Job deleted successfully", 204
+        return {"id": job_id, "message": "Job deleted Successfully"}, 200
     except Exception as e:
         return str(e), 500
 

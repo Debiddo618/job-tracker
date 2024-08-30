@@ -39,4 +39,15 @@ const updateJob = async (formData, jobId) => {
   }
 };
 
-export { index, create, updateJob };
+const deleteJob = async (jobId) => {
+  try {
+    const deletedJob = await fetch(`${BASE_URL}/${jobId}`, {
+      method: "DELETE",
+    });
+    return deletedJob.json();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export { index, create, updateJob, deleteJob };
