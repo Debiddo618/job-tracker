@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import * as jobService from "./services/jobService";
 import JobList from './components/JobList';
+import JobDetail from './components/JobDetail';
 
 const App = () => {
   const [jobList, setJobList] = useState([]);
@@ -29,6 +30,7 @@ const App = () => {
   return (
     <>
       <JobList jobList={jobList} updateSelected={updateSelected} />
+      <JobDetail selected={selected}/>
     </>
   )
 
