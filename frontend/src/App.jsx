@@ -9,7 +9,8 @@ const App = () => {
   const [selected, setSelected] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
 
-  const handleFormView = () => {
+  const handleFormView = (job) => {
+    if (!job.title) setSelected(null);
     setIsFormOpen(!isFormOpen);
   };
 
@@ -41,6 +42,26 @@ const App = () => {
       console.log(error);
     }
   };
+
+
+  const handleUpdateJob = async (formData, jobId) => {
+    try {
+      const updatedJob = await jobService.updateJob(formData, jobId);
+      if (updatedJob.error) {
+        throw new Error(updatedJob.error);
+      }
+
+      const updatedJobList = jobList.map((job) =>
+        job.id !== updatedJob.id ? job : updatedJob
+      );
+      setJobList(updatedJobList);
+      setSelected(updatedJob);
+      setIsFormOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   
   
   return (
@@ -52,9 +73,9 @@ const App = () => {
         isFormOpen={isFormOpen}
       />
       {isFormOpen ? (
-        <JobForm handleAddJob={handleAddJob}/>
+        <JobForm handleAddJob={handleAddJob} selected={selected} handleUpdateJob={handleUpdateJob} />
       ) : (
-        <JobDetail selected={selected} />
+        <JobDetail selected={selected} handleFormView={handleFormView}/>
       )}
     </>
   )

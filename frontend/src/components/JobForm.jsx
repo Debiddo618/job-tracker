@@ -1,14 +1,15 @@
 import { useState } from 'react';
 
 const JobForm = (props) => {
-  const [formData, setFormData] = useState({
+  const initialState = {
     title: '',
     company_name: '',
     job_location: '',
     type: 'Full-time',
     description: '',
     salary: 0,
-  });
+  }
+  const [formData, setFormData] = useState(props.selected ? props.selected : initialState);
 
   const handleChange = (evt) => {
     setFormData({ ...formData, [evt.target.name]: evt.target.value });
@@ -16,16 +17,14 @@ const JobForm = (props) => {
 
   const handleSubmitForm = (evt) => {
     evt.preventDefault();
-    props.handleAddJob(formData);
-    setFormData({     
-        title: '',
-        company_name: '',
-        job_location: '',
-        type: 'Full-time',
-        description: '',
-        salary: 0
-    });
-
+    console.log(props.selected)
+    if (props.selected) {
+      console.log("updating");
+      props.handleUpdateJob(formData, props.selected.id);
+    } else {
+      console.log("adding");
+      props.handleAddJob(formData);
+    }
   };
 
   return (
@@ -80,7 +79,7 @@ const JobForm = (props) => {
           onChange={handleChange}
           type="number"
         />
-        <button type="submit">Add New Job</button>
+        <button type="submit"> {props.selected ? 'Update Job' : 'Add New Job'} </button>
       </form>
     </div>
   );
