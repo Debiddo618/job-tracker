@@ -1,16 +1,23 @@
 const JobList = (props) => {
-    const jobs = props.jobList.map((job) => (
-        <a key={job._id} onClick={() => props.updateSelected(job)}>
-            <li>{job.title}</li>
-        </a>
-    ));
-
     return (
         <>
             <h1>Job List</h1>
-            {!props.jobList.length ? <h2>No Jobs Yet!</h2> : <ul>{jobs}</ul>}
+            {!props.jobList.length ? <h2>No Jobs Yet!</h2> : (
+                <ul>
+                    {props.jobList.map((job, index) => (
+                        <li key={job._id || index}>
+                            <a onClick={() => props.updateSelected(job)}>
+                                {job.title}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            )}
+            <button onClick={props.handleFormView}>
+                {props.isFormOpen ? 'Close Form' : 'New Job'}
+            </button>
         </>
     );
 }
- 
+
 export default JobList;

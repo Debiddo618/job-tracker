@@ -33,10 +33,10 @@ def create_jobs():
             cursor_factory=psycopg2.extras.RealDictCursor)
         cursor.execute("INSERT INTO jobs (title, company_name, job_location, type, salary, description) VALUES (%s, %s, %s, %s, %s, %s) RETURNING *",
                        (new_job['title'], new_job['company_name'], new_job['job_location'], new_job['type'], new_job['salary'], new_job['description']))
-        created_pet = cursor.fetchone()
+        created_job = cursor.fetchone()
         connection.commit()  # Commit changes to the database
         connection.close()
-        return created_pet, 201
+        return created_job, 201
     except Exception as e:
         return str(e), 500
 
