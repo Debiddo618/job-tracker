@@ -3,6 +3,10 @@ import * as jobService from "./services/jobService";
 import JobList from './components/JobList';
 import JobDetail from './components/JobDetail';
 import JobForm from './components/JobForm';
+import NavBar from './components/NavBar';
+import UserForm from './components/UserForm';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const App = () => {
   const [jobList, setJobList] = useState([]);
@@ -76,8 +80,16 @@ const App = () => {
     }
   };
 
+  // handle form for user signin/signout
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return (
     <>
+      <NavBar handleShow={handleShow}/>
+      <UserForm show={show} handleClose={handleClose}/>
       <JobList 
         jobList={jobList} 
         updateSelected={updateSelected} 
