@@ -1,8 +1,11 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { AuthedUserContext } from '../App';
+import { useContext } from 'react';
 
 const NavBar = (props) => {
+    const user = useContext(AuthedUserContext);
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container>
@@ -21,7 +24,7 @@ const NavBar = (props) => {
                 <Nav className="me-auto">
                 {props.username ? (
                     <>
-                        <Nav.Link>Hello {props.username}</Nav.Link>
+                        <Nav.Link>Hello {user.username}</Nav.Link>
                         <Nav.Link onClick={props.handleSignout}>Sign Out</Nav.Link>
                     </>
                 ) : (

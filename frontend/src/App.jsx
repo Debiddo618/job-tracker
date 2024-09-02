@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, createContext } from 'react';
 import * as jobService from "./services/jobService";
 import * as authService from "./services/authService";
 import JobList from './components/JobList';
@@ -8,6 +8,8 @@ import NavBar from './components/NavBar';
 import UserForm from './components/UserForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+
+export const AuthedUserContext = createContext(null);
 
 const App = () => {
   const [jobList, setJobList] = useState([]);
@@ -26,6 +28,7 @@ const App = () => {
 
 
   const [user, setUser] = useState(authService.getUser());
+  console.log(user)
 
   const handleFormView = (job) => {
     if (!job.title) setSelected(null);
@@ -99,7 +102,7 @@ const App = () => {
     setUser(null);
   }
   return (
-    <>
+    <AuthedUserContext.Provider value={user}>
       <NavBar handleShow={handleShow} username={user?.username} handleSignout={handleSignout} />
       <UserForm show={show} handleClose={handleClose} setUser={setUser} mode={mode}/>
       <JobList 
@@ -113,7 +116,7 @@ const App = () => {
       ) : (
         <JobDetail selected={selected} handleFormView={handleFormView} handleRemoveJob={handleRemoveJob}/>
       )}
-    </>
+    </AuthedUserContext.Provider>
   )
 
 };

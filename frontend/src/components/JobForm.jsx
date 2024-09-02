@@ -17,6 +17,7 @@ const JobForm = (props) => {
 
   const handleSubmitForm = (evt) => {
     evt.preventDefault();
+    formData.user_id = user.id;
     if (props.selected) {
       props.handleUpdateJob(formData, props.selected.id);
     } else {

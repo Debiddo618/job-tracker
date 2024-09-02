@@ -55,7 +55,11 @@ const UserForm = (props) => {
     return (
       <Modal
         show={props.show}
-        onHide={props.handleClose}
+        onHide={() => {
+            setFormData(initialState);
+            setMessage('');
+            props.handleClose();
+        }}
         backdrop="static"
         keyboard={false}
       >

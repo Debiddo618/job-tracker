@@ -18,7 +18,7 @@ const signup = async (formData) => {
       throw new Error(json.error);
     }
   } catch (err) {
-    return {"error":err.message};
+    return { error: err.message };
   }
 };
 
@@ -41,8 +41,7 @@ const signin = async (user) => {
       return user;
     }
   } catch (err) {
-    console.log(err);
-    throw err;
+    return { error: err.message };
   }
 };
 
