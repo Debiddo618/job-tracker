@@ -46,6 +46,7 @@ const signin = async (user) => {
   }
 };
 
+// decodes the payload part of the JWT and return the username of the User
 const getUser = () => {
   const token = localStorage.getItem("token");
   if (!token) return null;

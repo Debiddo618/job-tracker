@@ -2,15 +2,16 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
-import { signup } from '../services/authService';
+import { signup, getUser, signin} from '../services/authService';
 
 
 const UserForm = (props) => {
-    const [formData, setFormData] = useState({
+    const initialState = {
         username: '',
         password: '',
         passwordConf: '',
-    });
+    };
+    const [formData, setFormData] = useState(initialState);
     const [message, setMessage] = useState(['']);
     const updateMessage = (msg) => {
         setMessage(msg);
@@ -23,20 +24,31 @@ const UserForm = (props) => {
 
     const { username, password, passwordConf } = formData;
     const isFormInvalid = () => {
-        return !(username && password && password === passwordConf);
+        if (props.mode === 'signup') {
+            return !(username && password && password === passwordConf);
+        }
+        return !(username && password);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const newUser = await signup({"username":username,"password":password});
-            if(newUser.error){
-                updateMessage(newUser.error)
-            }else{
+            let userResponse;
+            if (props.mode === 'signup') {
+                userResponse = await signup({ username, password });
+            } else {
+                userResponse = await signin({ username, password });
+            }
+
+            if (userResponse.error) {
+                updateMessage(userResponse.error);
+            } else {
+                setFormData(initialState);
+                props.setUser(getUser());
                 props.handleClose();
             }
         } catch (err) {
-            console.log({err})
+            console.error(err);
         }
     };
 
@@ -48,7 +60,7 @@ const UserForm = (props) => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Sign Up</Modal.Title>
+            <Modal.Title>{props.mode === 'signup' ? 'Sign Up' : 'Sign In'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
             <Form onSubmit={handleSubmit}>
@@ -73,18 +85,21 @@ const UserForm = (props) => {
                         name="password" 
                     />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="passwordConf">
-                    <Form.Label> Confirm Password</Form.Label>
-                    <Form.Control
-                        type="password" 
-                        placeholder="Confirm Password"
-                        onChange={handleChange}
-                        value={formData.passwordConf}
-                        name="passwordConf" 
-                    />
-                </Form.Group>
-                <Button variant="primary" disabled={isFormInvalid()} className='w-100' type="submit">
-                    Submit
+                {props.mode === 'signup' && (
+                    <Form.Group className="mb-3" controlId="passwordConf">
+                        <Form.Label>Confirm Password</Form.Label>
+                        <Form.Control
+                            type="password"
+                            placeholder="Confirm Password"
+                            onChange={handleChange}
+                            value={formData.passwordConf}
+                            name="passwordConf"
+                            required
+                        />
+                    </Form.Group>
+                )}
+                <Button variant="primary" disabled={isFormInvalid()} className="w-100" type="submit">
+                    {props.mode === 'signup' ? 'Sign Up' : 'Sign In'}
                 </Button>
             </Form>
         </Modal.Body>

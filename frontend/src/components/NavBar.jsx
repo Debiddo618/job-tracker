@@ -19,10 +19,17 @@ const NavBar = (props) => {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
-                <Nav.Link href="#home">Home</Nav.Link>
-                <Nav.Link onClick={props.handleShow}>Sign Up</Nav.Link>
-                <Nav.Link href="#link">Sign In</Nav.Link>
-                <Nav.Link href="#link">Sign Out</Nav.Link>
+                {props.username ? (
+                    <>
+                        <Nav.Link>Hello {props.username}</Nav.Link>
+                        <Nav.Link onClick={props.handleSignout}>Sign Out</Nav.Link>
+                    </>
+                ) : (
+                    <>
+                        <Nav.Link onClick={() => props.handleShow('signin')}>Sign In</Nav.Link>
+                        <Nav.Link onClick={() => props.handleShow('signup')}>Sign Up</Nav.Link>
+                    </>
+                )}
                 </Nav>
             </Navbar.Collapse>
             </Container>

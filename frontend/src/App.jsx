@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import * as jobService from "./services/jobService";
+import * as authService from "./services/authService";
 import JobList from './components/JobList';
 import JobDetail from './components/JobDetail';
 import JobForm from './components/JobForm';
@@ -12,6 +13,19 @@ const App = () => {
   const [jobList, setJobList] = useState([]);
   const [selected, setSelected] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [mode, setMode] = useState('signup')
+
+  // handle form for user signin/signout
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = (mode) => {
+    setShow(true);
+    setMode(mode);
+  };
+
+
+  const [user, setUser] = useState(authService.getUser());
 
   const handleFormView = (job) => {
     if (!job.title) setSelected(null);
@@ -80,16 +94,14 @@ const App = () => {
     }
   };
 
-  // handle form for user signin/signout
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
+  const handleSignout = () => {
+    authService.signout();
+    setUser(null);
+  }
   return (
     <>
-      <NavBar handleShow={handleShow}/>
-      <UserForm show={show} handleClose={handleClose}/>
+      <NavBar handleShow={handleShow} username={user?.username} handleSignout={handleSignout} />
+      <UserForm show={show} handleClose={handleClose} setUser={setUser} mode={mode}/>
       <JobList 
         jobList={jobList} 
         updateSelected={updateSelected} 
