@@ -8,16 +8,15 @@ import NavBar from './components/NavBar';
 import UserForm from './components/UserForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 export const AuthedUserContext = createContext(null);
 
 const App = () => {
   const [jobList, setJobList] = useState([]);
   const [selected, setSelected] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const [mode, setMode] = useState('signup')
+  const [mode, setMode] = useState('signup');
 
-  // handle form for user signin/signout
+  // handle form for user sign-in/sign-out
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -26,33 +25,34 @@ const App = () => {
     setMode(mode);
   };
 
-
   const [user, setUser] = useState(authService.getUser());
-  console.log(user)
 
   const handleFormView = (job) => {
-    if (!job.title) setSelected(null);
+    setSelected(job?.title ? job : null);
     setIsFormOpen(!isFormOpen);
   };
 
   useEffect(() => {
     const fetchJobs = async () => {
+      let jobs;
       try {
-        const jobs = await jobService.index();
-        if (jobs.error) {
-          throw new Error(jobs.error);
+        if(user){
+          jobs = await jobService.index(user.id);
+          if (jobs.error) {
+            throw new Error(jobs.error);
+          }
+          setJobList(jobs);
         }
-        setJobList(jobs);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
     fetchJobs();
   }, []);
 
   const updateSelected = (job) => {
-    setSelected(job)
-  }
+    setSelected(job);
+  };
 
   const handleAddJob = async (formData) => {
     try {
@@ -60,10 +60,9 @@ const App = () => {
       setJobList([newJob, ...jobList]);
       setIsFormOpen(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
-
 
   const handleUpdateJob = async (formData, jobId) => {
     try {
@@ -71,7 +70,6 @@ const App = () => {
       if (updatedJob.error) {
         throw new Error(updatedJob.error);
       }
-
       const updatedJobList = jobList.map((job) =>
         job.id !== updatedJob.id ? job : updatedJob
       );
@@ -79,7 +77,7 @@ const App = () => {
       setSelected(updatedJob);
       setIsFormOpen(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -93,32 +91,38 @@ const App = () => {
       setSelected(null);
       setIsFormOpen(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
   const handleSignout = () => {
     authService.signout();
     setUser(null);
-  }
+  };
+
   return (
     <AuthedUserContext.Provider value={user}>
       <NavBar handleShow={handleShow} username={user?.username} handleSignout={handleSignout} />
-      <UserForm show={show} handleClose={handleClose} setUser={setUser} mode={mode}/>
-      <JobList 
-        jobList={jobList} 
-        updateSelected={updateSelected} 
-        handleFormView={handleFormView} 
-        isFormOpen={isFormOpen}
-      />
-      {isFormOpen ? (
-        <JobForm handleAddJob={handleAddJob} selected={selected} handleUpdateJob={handleUpdateJob} />
+      <UserForm show={show} handleClose={handleClose} setUser={setUser} mode={mode} />
+      {user ? (
+        <>
+          <JobList 
+            jobList={jobList} 
+            updateSelected={updateSelected} 
+            handleFormView={handleFormView} 
+            isFormOpen={isFormOpen}
+          />
+          {isFormOpen ? (
+            <JobForm handleAddJob={handleAddJob} selected={selected} handleUpdateJob={handleUpdateJob} />
+          ) : (
+            <JobDetail selected={selected} handleFormView={handleFormView} handleRemoveJob={handleRemoveJob} />
+          )}
+        </>
       ) : (
-        <JobDetail selected={selected} handleFormView={handleFormView} handleRemoveJob={handleRemoveJob}/>
+        <h1>Please Sign In</h1>
       )}
     </AuthedUserContext.Provider>
-  )
-
+  );
 };
 
 export default App;

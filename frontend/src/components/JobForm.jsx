@@ -1,6 +1,11 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { AuthedUserContext } from '../App';
+
 
 const JobForm = (props) => {
+  const user = useContext(AuthedUserContext);
+  console.log(user.id)
+
   const initialState = {
     title: '',
     company_name: '',
@@ -18,6 +23,7 @@ const JobForm = (props) => {
   const handleSubmitForm = (evt) => {
     evt.preventDefault();
     formData.user_id = user.id;
+    console.log(formData)
     if (props.selected) {
       props.handleUpdateJob(formData, props.selected.id);
     } else {

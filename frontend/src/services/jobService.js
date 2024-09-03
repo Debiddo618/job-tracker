@@ -1,8 +1,8 @@
 const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/jobs`;
 
-const index = async () => {
+const index = async (user_id) => {
   try {
-    const res = await fetch(BASE_URL);
+    const res = await fetch(`${BASE_URL}/users/${user_id}`);
     return res.json();
   } catch (err) {
     console.log(err);
