@@ -113,7 +113,7 @@ const App = () => {
             isFormOpen={isFormOpen}
           />
           {isFormOpen ? (
-            <JobForm handleAddJob={handleAddJob} selected={selected} handleUpdateJob={handleUpdateJob} />
+            <JobForm handleAddJob={handleAddJob} selected={selected} handleUpdateJob={handleUpdateJob} handleFormView={handleFormView} updateSelected={updateSelected} />
           ) : (
             <JobDetail selected={selected} handleFormView={handleFormView} handleRemoveJob={handleRemoveJob} />
           )}

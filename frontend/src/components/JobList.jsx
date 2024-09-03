@@ -1,9 +1,9 @@
 import Button from "react-bootstrap/esm/Button";
 const JobList = (props) => {
     return (
-        <div className="container-fluid">
+        <div className="container-fluid w-75">
             <h1 className="text-center">My Job Applications</h1>
-            {!props.jobList.length ? <h2>No Jobs Yet!</h2> : (
+            {!props.jobList.length ? <h2 className="text-center my-3">No Jobs Yet!</h2> : (
             <table class="table">
             <thead>
                 <tr>
@@ -21,7 +21,7 @@ const JobList = (props) => {
                     <tr>
                         <th scope="row">{job.id}</th>
                         <td>
-                            <a onClick={() => props.updateSelected(job)}>
+                            <a className="text-underline" onClick={() => props.updateSelected(job)}>
                                 {job.title}
                             </a>
                         </td>
@@ -29,7 +29,7 @@ const JobList = (props) => {
                         <td>{job.job_location}</td>
                         <td>{job.description}</td>
                         <td>{job.type}</td>
-                        <td>{job.salary}</td>
+                        <td>${job.salary.toLocaleString()}</td>
                     </tr>
                 ))}
             </tbody>
@@ -38,7 +38,7 @@ const JobList = (props) => {
 
             <div className="d-flex justify-content-center mt-3">
                 <Button className="w-50 my-3" onClick={props.handleFormView}>
-                    {props.isFormOpen ? 'Close Form' : 'New Job'}
+                    {props.isFormOpen ? 'Close Form' : 'New Job Application'}
                 </Button>
             </div>
         </div>
