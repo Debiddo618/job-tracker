@@ -1,10 +1,11 @@
 import { useState, useContext } from 'react';
 import { AuthedUserContext } from '../App';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 
 const JobForm = (props) => {
   const user = useContext(AuthedUserContext);
-  console.log(user.id)
 
   const initialState = {
     title: '',
@@ -23,7 +24,6 @@ const JobForm = (props) => {
   const handleSubmitForm = (evt) => {
     evt.preventDefault();
     formData.user_id = user.id;
-    console.log(formData)
     if (props.selected) {
       props.handleUpdateJob(formData, props.selected.id);
     } else {
@@ -32,60 +32,73 @@ const JobForm = (props) => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmitForm}>
-        <label htmlFor="title"> Title </label>
-        <input
-          id="title"
-          name="title"
-          value={formData.title}
-          onChange={handleChange}
-          required
-        />
-        <label htmlFor="company_name"> Company Name </label>
-        <input
-          id="company_name"
-          name="company_name"
-          value={formData.company_name}
-          onChange={handleChange}
-        />
-        <label htmlFor="job_location"> Job Location </label>
-        <input
-          id="job_location"
-          name="job_location"
-          value={formData.job_location}
-          onChange={handleChange}
-        />
-        <label htmlFor="description"> Description </label>
-        <input
-          id="description"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-        />
-        <label htmlFor="type"> Type </label>
-        <select 
-            name="type" 
-            id="type" 
-            onChange={handleChange}
-            value={formData.type}
-        >
-            <option value="Full-time">Full-time</option>
+    <Form onSubmit={handleSubmitForm}>
+      <Form.Group className="mb-3" controlId="title" >
+          <Form.Label>Job Title</Form.Label>
+          <Form.Control 
+              type="text"
+              placeholder="Enter Job Title"
+              onChange={handleChange}
+              value={formData.title}
+              name="title"
+              required 
+          />
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="company_name">
+          <Form.Label>Company Name</Form.Label>
+          <Form.Control 
+              type="text"
+              placeholder="Enter Company Name" 
+              onChange={handleChange}
+              value={formData.company_name}
+              name="company_name" 
+          />
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="job_location">
+          <Form.Label>Job Location</Form.Label>
+          <Form.Control 
+              type="text"
+              placeholder="Enter Job Location" 
+              onChange={handleChange}
+              value={formData.job_location}
+              name="job_location" 
+          />
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="description">
+          <Form.Label>Description</Form.Label>
+          <Form.Control 
+              type="text"
+              placeholder="Enter Job Description" 
+              onChange={handleChange}
+              value={formData.description}
+              name="description" 
+          />
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="type">
+          <Form.Label>Employment Type</Form.Label>
+          <Form.Select>
+          <option value="Full-time">Full-time</option>
             <option value="Part-time">Part-time</option>
             <option value="Contract">Contract</option>
             <option value="Internship">Internship</option>
-        </select>
-        <label htmlFor="description"> Salary </label>
-        <input
-          id="salary"
-          name="salary"
-          value={formData.salary}
-          onChange={handleChange}
-          type="number"
-        />
-        <button type="submit"> {props.selected ? 'Update Job' : 'Add New Job'} </button>
-      </form>
-    </div>
+          </Form.Select>
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="salary">
+          <Form.Label>Salary</Form.Label>
+          <Form.Control 
+              type="number"
+              placeholder="Enter Desired Annual Salary" 
+              onChange={handleChange}
+              value={formData.salary}
+              name="salary" 
+          />
+      </Form.Group>
+
+      <Button type="submit"> {props.selected ? 'Update Job' : 'Add New Job'} </Button>
+
+    </Form>
   );
 };
 

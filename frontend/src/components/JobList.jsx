@@ -1,7 +1,8 @@
+import Button from "react-bootstrap/esm/Button";
 const JobList = (props) => {
     return (
         <>
-            <h1>Job List</h1>
+            <h1>My Job Applications</h1>
             {!props.jobList.length ? <h2>No Jobs Yet!</h2> : (
                 <ul>
                     {props.jobList.map((job, index) => (
@@ -13,9 +14,9 @@ const JobList = (props) => {
                     ))}
                 </ul>
             )}
-            <button onClick={props.handleFormView}>
+            <Button onClick={props.handleFormView}>
                 {props.isFormOpen ? 'Close Form' : 'New Job'}
-            </button>
+            </Button>
         </>
     );
 }
