@@ -1,8 +1,8 @@
 import Button from "react-bootstrap/esm/Button";
 const JobList = (props) => {
     return (
-        <>
-            <h1>My Job Applications</h1>
+        <div className="container-fluid">
+            <h1 className="text-center">My Job Applications</h1>
             {!props.jobList.length ? <h2>No Jobs Yet!</h2> : (
                 <ul>
                     {props.jobList.map((job, index) => (
@@ -14,10 +14,12 @@ const JobList = (props) => {
                     ))}
                 </ul>
             )}
-            <Button onClick={props.handleFormView}>
-                {props.isFormOpen ? 'Close Form' : 'New Job'}
-            </Button>
-        </>
+            <div className="d-flex justify-content-center mt-3">
+                <Button className="w-50" onClick={props.handleFormView}>
+                    {props.isFormOpen ? 'Close Form' : 'New Job'}
+                </Button>
+            </div>
+        </div>
     );
 }
 

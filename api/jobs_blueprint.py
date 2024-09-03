@@ -5,16 +5,17 @@ import psycopg2.extras
 
 jobs_blueprint = Blueprint('jobs_blueprint', __name__)
 
-# Show all jobs
+
+# Show all jobs by a userid
 
 
-@jobs_blueprint.route('/jobs')
-def jobs_index():
+@jobs_blueprint.route('/jobs/users/<user_id>')
+def jobs_index(user_id):
     try:
         connection = get_db_connection()
         cursor = connection.cursor(
             cursor_factory=psycopg2.extras.RealDictCursor)
-        cursor.execute("SELECT * FROM jobs;")
+        cursor.execute("SELECT * FROM jobs WHERE user_id = %s", (user_id))
         jobs = cursor.fetchall()
         connection.close()
         return jobs
@@ -31,8 +32,8 @@ def create_jobs():
         connection = get_db_connection()
         cursor = connection.cursor(
             cursor_factory=psycopg2.extras.RealDictCursor)
-        cursor.execute("INSERT INTO jobs (title, company_name, job_location, type, salary, description) VALUES (%s, %s, %s, %s, %s, %s) RETURNING *",
-                       (new_job['title'], new_job['company_name'], new_job['job_location'], new_job['type'], new_job['salary'], new_job['description']))
+        cursor.execute("INSERT INTO jobs (title, company_name, job_location, type, salary, description, user_id) VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING *",
+                       (new_job['title'], new_job['company_name'], new_job['job_location'], new_job['type'], new_job['salary'], new_job['description'], new_job['user_id']))
         created_job = cursor.fetchone()
         connection.commit()  # Commit changes to the database
         connection.close()

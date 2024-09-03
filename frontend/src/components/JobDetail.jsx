@@ -1,3 +1,5 @@
+import Button from "react-bootstrap/esm/Button";
+
 const JobDetail = (props) => {
     if (!props.selected)
       return (
@@ -15,12 +17,12 @@ const JobDetail = (props) => {
         <h3>Type: {props.selected.type}</h3>
         <h4>Description: {props.selected.description}</h4>
         <h4>Salary: {props.selected.salary}</h4>
-        <button onClick={() => props.handleFormView(props.selected)}>
+        <Button className="btn-secondary mx-1" onClick={() => props.handleFormView(props.selected)}>
           Edit
-        </button>
-        <button onClick={() => props.handleRemoveJob(props.selected.id)}>
+        </Button>
+        <Button className="btn-danger" onClick={() => props.handleRemoveJob(props.selected.id)}>
           Delete
-        </button>
+        </Button>
       </div>
     );
   };

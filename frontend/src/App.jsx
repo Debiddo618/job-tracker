@@ -101,7 +101,7 @@ const App = () => {
   };
 
   return (
-    <AuthedUserContext.Provider value={user}>
+    <AuthedUserContext.Provider value={user} className="d-flex justify-content-center align-items-center">
       <NavBar handleShow={handleShow} username={user?.username} handleSignout={handleSignout} />
       <UserForm show={show} handleClose={handleClose} setUser={setUser} mode={mode} />
       {user ? (

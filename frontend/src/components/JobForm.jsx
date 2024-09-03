@@ -32,7 +32,7 @@ const JobForm = (props) => {
   };
 
   return (
-    <Form onSubmit={handleSubmitForm}>
+    <Form onSubmit={handleSubmitForm} className='w-50 mx-auto'>
       <Form.Group className="mb-3" controlId="title" >
           <Form.Label>Job Title</Form.Label>
           <Form.Control 
@@ -96,8 +96,11 @@ const JobForm = (props) => {
           />
       </Form.Group>
 
-      <Button type="submit"> {props.selected ? 'Update Job' : 'Add New Job'} </Button>
-
+      <Form.Group className="text-center">
+        <Button type="submit" className='mt-3 w-100'>
+          {props.selected ? 'Update Job' : 'Add New Job'}
+        </Button>
+      </Form.Group>
     </Form>
   );
 };

@@ -23,7 +23,7 @@ def signup():
             return jsonify({"error": "Username already taken"}), 400
         hashed_password = bcrypt.hashpw(
             bytes(new_user_data["password"], 'utf-8'), bcrypt.gensalt())
-        cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s) RETURNING username",
+        cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s) RETURNING id, username",
                        (new_user_data["username"], hashed_password.decode('utf-8')))
         created_user = cursor.fetchone()
         connection.commit()
@@ -45,16 +45,16 @@ def signin():
                        (sign_in_form_data["username"],))
         existing_user = cursor.fetchone()
         if existing_user is None:
-            return jsonify({"error": "Invalid credentials."}), 401
+            return jsonify({"error": "Invalid credentials"}), 401
         password_is_valid = bcrypt.checkpw(bytes(
             sign_in_form_data["password"], 'utf-8'), bytes(existing_user["password"], 'utf-8'))
         if not password_is_valid:
-            return jsonify({"error": "Invalid credentials."}), 401
+            return jsonify({"error": "Invalid credentials"}), 401
 
         token = jwt.encode(
             {"username": existing_user["username"], "id": existing_user["id"]}, os.getenv('JWT_SECRET'))
         return jsonify({"token": token}), 201
     except Exception as error:
-        return jsonify({"error": "Invalid credentials."}), 401
+        return jsonify({"error": "Invalid credentials"}), 401
     finally:
         connection.close()
