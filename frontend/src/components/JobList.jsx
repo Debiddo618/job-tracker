@@ -4,18 +4,40 @@ const JobList = (props) => {
         <div className="container-fluid">
             <h1 className="text-center">My Job Applications</h1>
             {!props.jobList.length ? <h2>No Jobs Yet!</h2> : (
-                <ul>
-                    {props.jobList.map((job, index) => (
-                        <li key={job._id || index}>
+            <table class="table">
+            <thead>
+                <tr>
+                <th scope="col">id</th>
+                <th scope="col">Job Title</th>
+                <th scope="col">Company Name</th>
+                <th scope="col">Job Location</th>
+                <th scope="col">Description</th>
+                <th scope="col">Employment Type</th>
+                <th scope="col">Salary</th>
+                </tr>
+            </thead>
+            <tbody>
+                {props.jobList.map((job, index) => (
+                    <tr>
+                        <th scope="row">{job.id}</th>
+                        <td>
                             <a onClick={() => props.updateSelected(job)}>
                                 {job.title}
                             </a>
-                        </li>
-                    ))}
-                </ul>
+                        </td>
+                        <td>{job.company_name}</td>
+                        <td>{job.job_location}</td>
+                        <td>{job.description}</td>
+                        <td>{job.type}</td>
+                        <td>{job.salary}</td>
+                    </tr>
+                ))}
+            </tbody>
+            </table>
             )}
+
             <div className="d-flex justify-content-center mt-3">
-                <Button className="w-50" onClick={props.handleFormView}>
+                <Button className="w-50 my-3" onClick={props.handleFormView}>
                     {props.isFormOpen ? 'Close Form' : 'New Job'}
                 </Button>
             </div>
