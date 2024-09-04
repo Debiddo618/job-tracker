@@ -28,8 +28,6 @@ const JobForm = (props) => {
       props.handleUpdateJob(formData, props.selected.id);
     } else {
       props.handleAddJob(formData);
-      props.updateSelected(formData);
-      props.handleFormView;
     }
   };
 
