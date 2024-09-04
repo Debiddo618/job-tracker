@@ -47,8 +47,12 @@ const UserForm = (props) => {
                 updateMessage(userResponse.error);
             } else {
                 setFormData(initialState);
-                welcomeToast(userResponse.username);
                 props.setUser(getUser());
+                if(props.mode === 'signup'){
+                    welcomeToast(userResponse.user.username);
+                }else{
+                    welcomeToast(userResponse.username);
+                }
                 props.handleClose();
             }
         } catch (err) {
