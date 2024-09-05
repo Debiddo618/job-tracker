@@ -34,4 +34,5 @@ def verify_token():
        return jsonify({"error": error.message})
 
 # Run our application, by default on port 5000
-app.run()
+if __name__ == '__main__':
+    app.run()
