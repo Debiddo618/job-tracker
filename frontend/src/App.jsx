@@ -9,6 +9,7 @@ import UserForm from './components/UserForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Banner from './assets/banner.jpg';
 
 export const AuthedUserContext = createContext(null);
 
@@ -134,7 +135,7 @@ const App = () => {
       ) : (
         <div className='d-flex justify-content-center align-items-center'>
           <div className="w-75 h-100">
-            <img className='img-fluid' src="https://img.freepik.com/free-vector/flat-employment-agency-search-new-employees-hire_88138-802.jpg?t=st=1725433312~exp=1725436912~hmac=8e1deb53ab7ec49d3c7755ac903d0f51c8fc3ee151745c7836722ece9aae19ca&w=1380" alt="Landing Page Banner" />
+            <img className='img-fluid' src={Banner} alt="Landing Page Banner designed by Freepik" />
           </div>
           <div className="w-25 h-100">
             <h1>From Applications to Offers: Track Every Step!</h1>
