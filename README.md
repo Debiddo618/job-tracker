@@ -10,6 +10,8 @@
 
 This is a job application web app developed using a JavaScript and React frontend, and a Python and Flask backend, connected to a PostgreSQL database. The app utilizes JWT for user authentication and authorization, allowing users to create, read, update, and delete their job applications. The goals of this project are to learn how different tech stacks interact with each other, specifically how to integrate a JavaScript React frontend with a Python Flask backend.
 
+For this project, I deployed the frontend and backend seperately. To do this, I created two seperate repositories: one for the [React frontend](https://github.com/Debiddo618/job-tracker-react-frontend), which is hosted on Netlify and one for the [Flask backend](https://github.com/Debiddo618/job-tracker-flask-backend), which is hosted on Heroku.
+
 ## :computer: Getting Started:
 
 You can access the game by clicking the link [here](https://job-tracker-react-flask.netlify.app/).
